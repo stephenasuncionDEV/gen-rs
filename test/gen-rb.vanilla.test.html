@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+        }
+
+        canvas {
+            border: 2px dashed rgb(120, 120, 120);
+        }
+
+        #generate-button {
+            margin-top: 3em;
+        }
+
+        .images-container {
+            display: flex;
+            gap: .25em;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        gen-rb vanilla test
+    </h1>
+    <p>
+        To test your own layers you must add your images in 'layers' folder.
+    </p>
+    <div class="images-container">
+        <image id='background-orange' src="./layers/Background/Orange.png" alt="Orange Background" width='100px' />
+        <image id='background-red' src="./layers/Background/Red.png" alt="Red Background" width='100px' />
+        <image id='body-green' src="./layers/Body/Green.png" alt="Green Body" width='100px' />
+        <image id='body-white' src="./layers/Body/White.png" alt="White Body" width='100px' />
+        <image id='eyes-one' src="./layers/Eyes/One.png" alt="Green Eyes" width='100px' />
+        <image id='eyes-serious' src="./layers/Eyes/Serious.png" alt="White Eyes" width='100px' />
+    </div>
+    <button id="generate-button">
+        Generate
+    </button>
+    <canvas id='renderer' width="400" height="400"></canvas>
+    <script type="module" defer>
+        import init, { generate } from '../pkg/gen_rb.js';
+    
+        await init();
+
+        // Load Pre-built layers
+        const imagesArr = Array.from(document.getElementsByTagName("img"));
+
+        // Update canvas size
+        const canvas = document.getElementById('renderer');
+        canvas.width = imagesArr[0].naturalWidth;
+        canvas.height = imagesArr[0].naturalHeight;
+
+        // Pre-built layers
+        let layers = [
+            { name: 'background', images: [] },
+            { name: 'body', images: [] },
+            { name: 'eyes', images: [] }
+        ];
+
+        // Add images inside all layers
+        layers.forEach((layer) => {
+            const images = imagesArr.filter((image) => {
+                return image.id.slice(0, image.id.indexOf('-')) === layer.name
+            })
+
+            const newImages = images.map((image) => {
+                const { id, currentSrc } = image;
+                return {
+                    image: image,
+                    preview: currentSrc,
+                    name: id.slice(id.indexOf('-') + 1),
+                    type: 'png',
+                    rarity: {
+                        value: 50,
+                        max: -1,
+                        percentage: -1,
+                    }
+                }
+            })
+
+            layer.images = newImages;
+        })
+
+        // Update rarity values of all images
+        layers.forEach((layer) => {
+            const newImages = layer.images.map((image, idx, array) => {
+                image.rarity.value = 50;
+                image.rarity.max = array.length * 50;
+                image.rarity.percentage = 100 / array.length;
+                return image;
+            })
+            layer.images = newImages;
+        })
+
+        const generateClient = async () => {
+            try {
+                const ctx = canvas.getContext('2d');
+                generate();
+            }
+            catch (err) {
+                console.error(err);
+            }
+        }
+
+        const generateBtn = document.getElementById('generate-button');
+        generateBtn.addEventListener('click', generateClient);
+    </script>
+</body>
+</html>
