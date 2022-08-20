@@ -50,21 +50,15 @@
     </button>
     <canvas id='renderer' width="400" height="400"></canvas>
     <script type="module" defer>
-        import init, { generate, load_image, construct_layers } from '../pkg/gen_rs.js';
+        import init, { GenRS } from '../pkg/gen_rs.js';
     
-        await init();
+        await init().catch(console.error);
 
-        // Load Pre-built layers ()
+        // Load Pre-built layers
+        // this returns url of images
         const imagesArr = Array.from(document.getElementsByTagName("img")).map((img) => img.currentSrc);
 
-        // Update canvas size
-        const canvas = document.getElementById('renderer');
-        canvas.width = imagesArr[0].naturalWidth;
-        canvas.height = imagesArr[0].naturalHeight;
-
-        console.log(imagesArr)
-
-        const layers = construct_layers([
+        let test = new GenRS([
             {
                 name: 'Background',
                 images: [
@@ -86,7 +80,42 @@
                     { name: 'Serious', src: imagesArr[5] }
                 ]
             }
-        ], 'image/png')
+        ], 'image/png');
+        console.log(test);
+
+        //console.log(imagesArr)
+
+        // Initially, this is how js would pass layer data to rust
+        // const layers = construct_layers([
+        //     {
+        //         name: 'Background',
+        //         images: [
+        //             { name: 'Orange', src: imagesArr[0] },
+        //             { name: 'Red', src: imagesArr[1] }
+        //         ]
+        //     },
+        //     {
+        //         name: 'Body',
+        //         images: [
+        //             { name: 'Green', src: imagesArr[2] },
+        //             { name: 'White', src: imagesArr[3] }
+        //         ]
+        //     },
+        //     {
+        //         name: 'Eyes',
+        //         images: [
+        //             { name: 'One', src: imagesArr[4] },
+        //             { name: 'Serious', src: imagesArr[5] }
+        //         ]
+        //     }
+        // ], 'image/png')
+
+        // IGNORE CODE BELOW
+
+        // Update canvas size
+        // const canvas = document.getElementById('renderer');
+        // canvas.width = imagesArr[0].naturalWidth;
+        // canvas.height = imagesArr[0].naturalHeight;
 
         // Pre-built layers
         // let layers = [
@@ -133,7 +162,7 @@
 
         const generateClient = async () => {
             try {
-                const ctx = canvas.getContext('2d');
+                //const ctx = canvas.getContext('2d');
                 //generate(layers);
             }
             catch (err) {
