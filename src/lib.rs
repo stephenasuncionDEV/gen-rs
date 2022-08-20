@@ -1,5 +1,5 @@
-use wasm_bindgen::prelude::*;
-use log::Level;
+pub use wasm_bindgen::prelude::*;
+pub use log::{Level, info};
 mod structs;
 mod utils;
 
@@ -21,6 +21,10 @@ impl GenRS {
         let layers: Vec<structs::Layer> = utils::layer_constructor::construct_layers(layers, image_type);
         JsValue::from_serde(&layers).unwrap()
     }
+
+    // pub fn get_contents(&self) -> u32 {
+    //     self.contents
+    // }
 }
 
 #[wasm_bindgen(start)]

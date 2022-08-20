@@ -1,5 +1,5 @@
-pub use wasm_bindgen::prelude::JsValue;
-pub use log::info;
+use crate::JsValue;
+use crate::info;
 use crate::structs;
 use super::image_constructor::construct_layer_images;
 
