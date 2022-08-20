@@ -58,7 +58,8 @@
         // this returns url of images
         const imagesArr = Array.from(document.getElementsByTagName("img")).map((img) => img.currentSrc);
 
-        let test = new GenRS([
+        // Initially, this is how js would pass layer data to rust
+        const constructedLayers = new GenRS([
             {
                 name: 'Background',
                 images: [
@@ -81,36 +82,10 @@
                 ]
             }
         ], 'image/png');
-        console.log(test);
 
-        //console.log(imagesArr)
+        console.log(constructedLayers);
 
-        // Initially, this is how js would pass layer data to rust
-        // const layers = construct_layers([
-        //     {
-        //         name: 'Background',
-        //         images: [
-        //             { name: 'Orange', src: imagesArr[0] },
-        //             { name: 'Red', src: imagesArr[1] }
-        //         ]
-        //     },
-        //     {
-        //         name: 'Body',
-        //         images: [
-        //             { name: 'Green', src: imagesArr[2] },
-        //             { name: 'White', src: imagesArr[3] }
-        //         ]
-        //     },
-        //     {
-        //         name: 'Eyes',
-        //         images: [
-        //             { name: 'One', src: imagesArr[4] },
-        //             { name: 'Serious', src: imagesArr[5] }
-        //         ]
-        //     }
-        // ], 'image/png')
-
-        // IGNORE CODE BELOW
+        // ** IGNORE CODE BELOW **
 
         // Update canvas size
         // const canvas = document.getElementById('renderer');
