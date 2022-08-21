@@ -12,13 +12,27 @@ mod utils;
 //     info!("[gen-rs] Generator Finished");
 // }
 
+// #[wasm_bindgen]
+// pub struct GenRS {
+//     data: Vec<structs::Layer>,
+//     image_type: String
+// }
+
+// #[wasm_bindgen]
+// impl GenRS {
+//     #[wasm_bindgen(constructor)]
+//     pub fn new(layers: JsValue, image_type: String) -> JsValue {
+        
+//     }
+// }
+
 #[wasm_bindgen]
 pub async fn createGenRS(layers: JsValue, image_type: String) -> JsValue {
     let input_layers: Vec<structs::InputLayers> = layers.into_serde().unwrap();
 
     let constructed_layers: Vec<structs::Layer> = construct_layers(
         input_layers, 
-        &image_type
+        image_type
     ).await.unwrap();
 
     JsValue::from_serde(&constructed_layers).unwrap()

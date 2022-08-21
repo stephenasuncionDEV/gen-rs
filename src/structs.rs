@@ -10,7 +10,7 @@ pub struct Rarity {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Image {
-    pub src: Vec<u8>,
+    pub src: String,
     pub name: String,
     pub image_type: String,
     pub rarity: Rarity
