@@ -50,7 +50,7 @@
     </button>
     <canvas id='renderer' width="400" height="400"></canvas>
     <script type="module" defer>
-        import init, { GenRS } from '../pkg/gen_rs.js';
+        import init, { createGenRS } from '../pkg/gen_rs.js';
     
         await init().catch(console.error);
 
@@ -59,7 +59,7 @@
         const imagesArr = Array.from(document.getElementsByTagName("img")).map((img) => img.currentSrc);
 
         // Initially, this is how js would pass layer data to rust
-        const constructedLayers = new GenRS([
+        const constructedLayers = await createGenRS([
             {
                 name: 'Background',
                 images: [

@@ -1,5 +1,8 @@
 pub use wasm_bindgen::prelude::*;
-pub use log::{Level, info};
+pub use log::{Level, info, debug};
+pub use futures::future::try_join_all;
+pub use wasm_bindgen_futures::JsFuture;
+use utils::layer_constructor::construct_layers;
 mod structs;
 mod utils;
 
@@ -10,24 +13,19 @@ mod utils;
 // }
 
 #[wasm_bindgen]
-pub struct GenRS {
-    data: Vec<structs::Layer>,
+pub async fn createGenRS(layers: JsValue, image_type: String) -> JsValue {
+    let input_layers: Vec<structs::InputLayers> = layers.into_serde().unwrap();
+
+    let constructed_layers: Vec<structs::Layer> = construct_layers(
+        input_layers, 
+        &image_type
+    ).await.unwrap();
+
+    JsValue::from_serde(&constructed_layers).unwrap()
 }
 
-#[wasm_bindgen]
-impl GenRS {
-    #[wasm_bindgen(constructor)]
-    pub fn new(layers: &JsValue, image_type: String) -> JsValue {
-        let layers: Vec<structs::Layer> = utils::layer_constructor::construct_layers(layers, image_type);
-        JsValue::from_serde(&layers).unwrap()
-    }
-
-    // pub fn get_contents(&self) -> u32 {
-    //     self.contents
-    // }
-}
 
 #[wasm_bindgen(start)]
-pub fn main() {
+pub async fn main() {
     console_log::init_with_level(Level::Debug).ok();
 }

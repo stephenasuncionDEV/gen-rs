@@ -1,18 +1,23 @@
-use crate::JsValue;
-use crate::info;
-use crate::structs;
+use crate::{structs, info, try_join_all};
 use super::image_constructor::construct_layer_images;
 
-pub fn construct_layers(layers: &JsValue, image_type: String) -> Vec<structs::Layer> {
+pub async fn construct_layers_data(layer: structs::InputLayers, image_type: &String) -> Result<structs::Layer, String> {
+    let images: Vec<structs::Image> = construct_layer_images(layer.images, &image_type.clone()).await.unwrap();
+
+    Ok(structs::Layer {
+        name: layer.name,
+        images
+    })
+}
+
+pub async fn construct_layers(input_layers: Vec<structs::InputLayers>, image_type: &String) -> Result<Vec<structs::Layer>, String> {
     info!("[gen-rs] constructing layers");
 
-    let layers_input_vec: Vec<structs::LayersInput> = layers.into_serde().unwrap();
+    let new_layers: Vec<structs::Layer> = try_join_all(input_layers
+        .into_iter()
+        .map(|layer: structs::InputLayers| construct_layers_data(layer, image_type)))
+        .await
+        .unwrap();
 
-    layers_input_vec
-    .into_iter()
-    .map(|layer: structs::LayersInput| structs::Layer {
-        name: layer.name,
-        images: construct_layer_images(layer.images, &image_type.clone())
-    })
-    .collect()
+    Ok(new_layers)
 }

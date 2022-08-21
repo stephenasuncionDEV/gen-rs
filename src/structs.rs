@@ -10,7 +10,7 @@ pub struct Rarity {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Image {
-    pub src: String,
+    pub src: Vec<u8>,
     pub name: String,
     pub image_type: String,
     pub rarity: Rarity
@@ -29,14 +29,14 @@ pub struct Attributes {
     pub images: Vec<Image>
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ImageInput {
     pub name: String,
     pub src: String
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct LayersInput {
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct InputLayers {
     pub name: String,
     pub images: Vec<ImageInput>
 }
