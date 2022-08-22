@@ -1,14 +1,14 @@
 use serde::{Serialize, Deserialize};
 
 // Rust
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Rarity {
     pub value: i32,
     pub max: i32,
     pub percentage: i32
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Image {
     pub src: String,
     pub name: String,
@@ -16,7 +16,7 @@ pub struct Image {
     pub rarity: Rarity
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Layer {
     pub name: String,
     pub images: Vec<Image>
@@ -30,13 +30,13 @@ pub struct Attributes {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct ImageInput {
+pub struct InputImage {
     pub name: String,
     pub src: String
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct InputLayers {
+pub struct InputLayer {
     pub name: String,
-    pub images: Vec<ImageInput>
+    pub images: Vec<InputImage>
 }

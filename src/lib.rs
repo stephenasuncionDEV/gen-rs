@@ -6,29 +6,9 @@ use utils::layer_constructor::construct_layers;
 mod structs;
 mod utils;
 
-// #[wasm_bindgen]
-// pub fn generate(layers: &JsValue) {
-//     info!("[gen-rs] Generator Started");
-//     info!("[gen-rs] Generator Finished");
-// }
-
-// #[wasm_bindgen]
-// pub struct GenRS {
-//     data: Vec<structs::Layer>,
-//     image_type: String
-// }
-
-// #[wasm_bindgen]
-// impl GenRS {
-//     #[wasm_bindgen(constructor)]
-//     pub fn new(layers: JsValue, image_type: String) -> JsValue {
-        
-//     }
-// }
-
 #[wasm_bindgen]
 pub async fn createGenRS(layers: JsValue, image_type: String) -> JsValue {
-    let input_layers: Vec<structs::InputLayers> = layers.into_serde().unwrap();
+    let input_layers: Vec<structs::InputLayer> = layers.into_serde().unwrap();
 
     let constructed_layers: Vec<structs::Layer> = construct_layers(
         input_layers, 

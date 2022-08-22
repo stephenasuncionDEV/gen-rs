@@ -50,7 +50,7 @@
     </button>
     <canvas id='renderer' width="400" height="400"></canvas>
     <script type="module" defer>
-        import init, { createGenRS } from '../pkg/gen_rs.js';
+        import init, { createGenRS, generate } from '../pkg/gen_rs.js';
     
         await init().catch(console.error);
 
@@ -84,6 +84,8 @@
         ], 'image/png');
 
         console.log(constructedLayers);
+
+        generate(constructedLayers);
 
         // ** IGNORE CODE BELOW **
 
