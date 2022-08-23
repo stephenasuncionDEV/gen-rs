@@ -8,7 +8,6 @@ pub use log::{Level, info, debug};
 pub use futures::future::try_join_all;
 pub use wasm_bindgen_futures::JsFuture;
 pub use chrono::Utc;
-use utils::layer_constructor::construct_layers;
 mod structs;
 mod utils;
 
@@ -16,10 +15,11 @@ mod utils;
 pub async fn createGenRS(layers: JsValue, image_type: String) -> JsValue {
     let input_layers: Vec<structs::InputLayer> = layers.into_serde().unwrap();
 
-    let constructed_layers: Vec<structs::Layer> = construct_layers(
+    let constructed_layers: Vec<structs::Layer> = utils::layer_constructor::construct_layers(
         input_layers, 
         image_type
-    ).await.unwrap();
+    )
+    .await.unwrap();
 
     JsValue::from_serde(&constructed_layers).unwrap()
 }
