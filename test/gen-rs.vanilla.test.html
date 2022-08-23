@@ -48,7 +48,7 @@
     <button id="generate-button">
         Generate
     </button>
-    <canvas id='renderer' width="400" height="400"></canvas>
+    <canvas id='renderer' width="631" height="631"></canvas>
     <script type="module" defer>
         import init, { createGenRS, generate } from '../pkg/gen_rs.js';
     
@@ -83,14 +83,10 @@
             }
         ], 'image/png');
 
-        console.log(constructedLayers);
-
-        generate(constructedLayers);
-
         // ** IGNORE CODE BELOW **
 
         // Update canvas size
-        // const canvas = document.getElementById('renderer');
+        const canvas = document.getElementById('renderer');
         // canvas.width = imagesArr[0].naturalWidth;
         // canvas.height = imagesArr[0].naturalHeight;
 
@@ -139,8 +135,8 @@
 
         const generateClient = async () => {
             try {
-                //const ctx = canvas.getContext('2d');
-                //generate(layers);
+                const ctx = canvas.getContext('2d');
+                generate(ctx, constructedLayers);
             }
             catch (err) {
                 console.error(err);
