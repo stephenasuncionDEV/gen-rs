@@ -20,25 +20,25 @@ pub fn randomized_image(layer: structs::Layer) -> structs::Image {
 }
 
 #[wasm_bindgen]
-pub fn generate(ctx: &CanvasRenderingContext2d, constructed_layers: &JsValue, generation_size: i32) {
-    info!("[gen-rs] generator of {} unique images started", generation_size);
+pub fn generate(ctx: &CanvasRenderingContext2d, opt: &JsValue) {
+    let options: structs::InputGenerate = opt.into_serde().unwrap();
+
+    info!("[gen-rs] generator of {} unique images started", options.size);
 
     let start_time: chrono::NaiveTime = Utc::now().time();
 
-    let constructed_layers_input: Vec<structs::Layer> = constructed_layers.into_serde().unwrap();
-
     let mut possibleCombination: i32 = 1;
-    for layer in &constructed_layers_input {
+    for layer in &options.layers {
         possibleCombination *= layer.images.len() as i32;
     }
 
-    if possibleCombination < generation_size {
+    if possibleCombination < options.size {
         throw!("[gen-rs] possible combination is under the desired collection count {}/{}. You must add more images to your layer(s).",
         possibleCombination,
-        generation_size);
+        options.size);
     }
 
-    let images_chosen: Vec<structs::Image> = constructed_layers_input
+    let images_chosen: Vec<structs::Image> = options.layers
     .into_iter()
     .map(|layer: structs::Layer| randomized_image(layer))
     .collect();

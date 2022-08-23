@@ -52,13 +52,13 @@
     <script type="module" defer>
         import init, { createGenRS, generate } from '../pkg/gen_rs.js';
     
+        // Intialize rust application
         await init().catch(console.error);
 
-        // Load Pre-built layers
-        // this returns url of images
+        // Array of image source
         const imagesArr = Array.from(document.getElementsByTagName("img")).map((img) => img.currentSrc);
 
-        // Initially, this is how js would pass layer data to rust
+        // Array of layers contructed by gen-rs
         const constructedLayers = await createGenRS([
             {
                 name: 'Background',
@@ -83,60 +83,17 @@
             }
         ], 'image/png');
 
-        // ** IGNORE CODE BELOW **
 
-        // Update canvas size
         const canvas = document.getElementById('renderer');
-        // canvas.width = imagesArr[0].naturalWidth;
-        // canvas.height = imagesArr[0].naturalHeight;
 
-        // Pre-built layers
-        // let layers = [
-        //     { name: 'background', images: [] },
-        //     { name: 'body', images: [] },
-        //     { name: 'eyes', images: [] }
-        // ];
-
-        // Add images inside all layers
-        // layers.forEach((layer) => {
-        //     const images = imagesArr.filter((image) => {
-        //         return image.id.slice(0, image.id.indexOf('-')) === layer.name
-        //     })
-
-        //     const newImages = images.map((image) => {
-        //         const { id, currentSrc } = image;
-        //         return {
-        //             image: 'base64',
-        //             //preview: currentSrc,
-        //             name: id.slice(id.indexOf('-') + 1),
-        //             image_type: 'png',
-        //             rarity: {
-        //                 value: 50,
-        //                 max: -1,
-        //                 percentage: -1,
-        //             }
-        //         }
-        //     })
-
-        //     layer.images = newImages;
-        // })
-
-        // Update rarity values of all images
-        // layers.forEach((layer) => {
-        //     const newImages = layer.images.map((image, idx, array) => {
-        //         image.rarity.value = 50;
-        //         image.rarity.max = array.length * 50;
-        //         image.rarity.percentage = 100 / array.length;
-        //         return image;
-        //     })
-        //     layer.images = newImages;
-        // })
-
-
+        // Generate a unique images by passing context and some options
         const generateClient = async () => {
             try {
                 const ctx = canvas.getContext('2d');
-                generate(ctx, constructedLayers, 100);
+                generate(ctx, {
+                    layers: constructedLayers,
+                    size: 100
+                });
             }
             catch (err) {
                 console.error(err);

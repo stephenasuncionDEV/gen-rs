@@ -40,3 +40,9 @@ pub struct InputLayer {
     pub name: String,
     pub images: Vec<InputImage>
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct InputGenerate {
+    pub layers: Vec<Layer>,
+    pub size: i32
+}
