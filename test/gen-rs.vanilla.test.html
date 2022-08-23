@@ -136,7 +136,7 @@
         const generateClient = async () => {
             try {
                 const ctx = canvas.getContext('2d');
-                generate(ctx, constructedLayers);
+                generate(ctx, constructedLayers, 100);
             }
             catch (err) {
                 console.error(err);

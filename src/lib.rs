@@ -2,6 +2,7 @@ pub use wasm_bindgen::prelude::*;
 pub use log::{Level, info, debug};
 pub use futures::future::try_join_all;
 pub use wasm_bindgen_futures::JsFuture;
+pub use chrono::Utc;
 use utils::layer_constructor::construct_layers;
 mod structs;
 mod utils;

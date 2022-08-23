@@ -20,6 +20,7 @@ wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.32"
 rand = "0.8.5"
 photon-rs = "0.3.1"
+chrono = "0.4.22"
 
 [dependencies.web-sys]
 version = "0.3.59"
@@ -30,5 +31,7 @@ features = [
   "Window",
   "console",
   "ImageData",
-  "Response"
+  "Response",
+  "Performance",
+  "PerformanceTiming"
 ]

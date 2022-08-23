@@ -1,4 +1,4 @@
-use crate::{structs, info, debug};
+use crate::{structs, info, Utc};
 use wasm_bindgen::prelude::*;
 use rand::prelude::*;
 use rand::distributions::WeightedIndex;
@@ -20,8 +20,10 @@ pub fn randomized_image(layer: structs::Layer) -> structs::Image {
 }
 
 #[wasm_bindgen]
-pub fn generate(ctx: &CanvasRenderingContext2d, constructed_layers: &JsValue) {
-    info!("[gen-rs] generator started");
+pub fn generate(ctx: &CanvasRenderingContext2d, constructed_layers: &JsValue, generation_size: js_sys::Number) {
+    info!("[gen-rs] generator of {} unique images started", generation_size);
+
+    let start_time: chrono::NaiveTime = Utc::now().time();
 
     let constructed_layers_input: Vec<structs::Layer> = constructed_layers.into_serde().unwrap();
 
@@ -45,5 +47,9 @@ pub fn generate(ctx: &CanvasRenderingContext2d, constructed_layers: &JsValue) {
 
     ctx.put_image_data(&generated_image, 0.0, 0.0);
 
-    info!("[gen-rs] generator finished");
+    let end_time: chrono::NaiveTime = Utc::now().time();
+
+    let elapsed_time: chrono::Duration = end_time - start_time;
+
+    info!("[gen-rs] generator finished in {}ms", elapsed_time.num_milliseconds());
 }
