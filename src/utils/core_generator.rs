@@ -40,7 +40,7 @@ pub fn generate(ctx: &CanvasRenderingContext2d, constructed_layers: &JsValue, ge
     let mut base_image: PhotonImage = images_chosen_photon[0].to_owned();
 
     for n in 1..images_chosen_photon.len() {
-        multiple::watermark(&mut base_image, &images_chosen_photon[n], 30, 40);
+        multiple::watermark(&mut base_image, &images_chosen_photon[n], 0, 0);
     }
 
     let generated_image: ImageData = to_image_data(base_image);
