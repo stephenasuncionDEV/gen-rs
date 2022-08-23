@@ -1,3 +1,8 @@
+#![allow(dead_code)]
+#![allow(unused_variables)]
+#![allow(non_snake_case)]
+#![allow(unused_must_use)]
+
 pub use wasm_bindgen::prelude::*;
 pub use log::{Level, info, debug};
 pub use futures::future::try_join_all;

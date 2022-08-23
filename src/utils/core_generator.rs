@@ -34,7 +34,7 @@ pub fn generate(ctx: &CanvasRenderingContext2d, constructed_layers: &JsValue, ge
 
     let images_chosen_photon: Vec<PhotonImage> = images_chosen
     .into_iter()
-    .map(|image| base64_to_image(&image.src[22..]))
+    .map(|image: structs::Image| base64_to_image(&image.src[22..]))
     .collect();
 
     let mut base_image: PhotonImage = images_chosen_photon[0].to_owned();
