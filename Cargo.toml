@@ -26,11 +26,7 @@ chrono = "0.4.22"
 version = "0.3.59"
 features = [
   "CanvasRenderingContext2d",
-  "Document",
-  "HtmlCanvasElement",
   "Window",
-  "console",
-  "ImageData",
   "Response",
   "Performance",
   "PerformanceTiming"
