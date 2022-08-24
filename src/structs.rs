@@ -44,5 +44,10 @@ pub struct InputLayer {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InputGenerate {
     pub layers: Vec<Layer>,
-    pub size: i32
+    pub size: i32,
+    pub name: String,
+    pub description: String,
+    pub standard: String,
+    pub startCount: i32,
+    pub shuffledMetadata: bool
 }

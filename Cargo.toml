@@ -2,7 +2,8 @@
 name = "gen-rs"
 version = "0.1.0"
 authors = ["Stephen Asuncion"]
-edition = "2021"
+edition = "2022"
+repository = "https://github.com/stephenasuncionDEV/gen-rs"
 
 [lib]
 crate-type = ["cdylib"]
@@ -21,6 +22,7 @@ wasm-bindgen-futures = "0.4.32"
 rand = "0.8.5"
 photon-rs = "0.3.1"
 chrono = "0.4.22"
+md5 = "0.7.0"
 
 [dependencies.web-sys]
 version = "0.3.59"
